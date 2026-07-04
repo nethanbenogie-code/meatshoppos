@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ceb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meat Shop POS</title>
+<meta name="description" content="POS para sa karnehan sa merkado — timbang matag kilo, sukli, imbentaryo, ug report.">
+<meta name="theme-color" content="#9E2B25">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Meat Shop POS">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADRUlEQVR42u3dPVLjQBSFUXUXWyEiZkF4YcyCiB15MZDDDCNZsvrnnpNT41K9T69teaAsDby/PH8u8M3leitn/5vFwJMcRDH0JMdQDD3JMVTDz2iOnLVi8EneBtXwk7wNisEneRtUw0/yNqiGn+QIquEnOYJq+EmOoBp+kiOohp/kCKpLRLLq7k/yFqiGn+QIHIFwBHL3J3ULVMNPcgSOQDgCQXwAjj8kHoNsAGwAiA7A8YfUY5ANgA0AAoBAxfkfGwAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAXCst48PF+E/nlwCQy0ADLUAMNQCwFALwECTYrq/EGOof/rz+uoijLwBDDXTBWCo6YEHYQgABAACAAGcwkdz2AAgAGjHd4FC9fAcpodjsAAMfvPX0jKEpt8F8jSY1hvhKeECCm2c7XR2BHX24e/lrEmf6uzDLwLvUaYOYMtgi4CuAtg7kPf8vAhsgSnfA0BUAHvu5LYANgAIAAGAAEAAQ9nzUZmvRmADwOgB3HMnd/enqwD2fia/ZaAN/xjOfE4zxRFozWAbfqZ+D/DbgBt+d/9/meo/xBh0YjcA7v4CoLsBW/u6Wr02vxUiNAK/FkUAQsARKIkPCToNwN0IGwAEAAIAAYAAQAAgABAACABmDMDTYGwAHs73gQQAAgABIACXAAGAAEAAIIBWPAzDBgABgAB4EF+HEAAIAASAAEAAIAAQQFOeBmMDgABAACAAEACH8n0gAYAAEAAIAATQCU+DOYu/FD8ANwQBGFQEYFCJCsCg8mjl/eX502UglY9BEQAIAAQAAgABgABAACAAEAAIAAQAAgABgABAACAAEAAIAEYI4HK9FZeBRJfrrdgAOAKBACA1AO8DSDz/2wDYAC4BAnAMIvD4YwNgA7gECMAxiMDjz183gAhIGX5HIByB1pYCs939f90AImD24XcEwhHo3nJg9Lv/qg0gAmYd/tVHIBEw4/Bveg8gAmYb/s1vgkXATMO/OQARMNPwL8uy7Bpmf2WeUQf/7g1gGzDL8O/eALYBow7+IRvANmDk4T90A9gIjDL0pwQgBkY4VTQ5tgiCXo7RXwuSEKGF1AU9AAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADRUlEQVR42u3dPVLjQBSFUXUXWyEiZkF4YcyCiB15MZDDDCNZsvrnnpNT41K9T69teaAsDby/PH8u8M3leitn/5vFwJMcRDH0JMdQDD3JMVTDz2iOnLVi8EneBtXwk7wNisEneRtUw0/yNqiGn+QIquEnOYJq+EmOoBp+kiOohp/kCKpLRLLq7k/yFqiGn+QIHIFwBHL3J3ULVMNPcgSOQDgCQXwAjj8kHoNsAGwAiA7A8YfUY5ANgA0AAoBAxfkfGwAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAXCst48PF+E/nlwCQy0ADLUAMNQCwFALwECTYrq/EGOof/rz+uoijLwBDDXTBWCo6YEHYQgABAACAAGcwkdz2AAgAGjHd4FC9fAcpodjsAAMfvPX0jKEpt8F8jSY1hvhKeECCm2c7XR2BHX24e/lrEmf6uzDLwLvUaYOYMtgi4CuAtg7kPf8vAhsgSnfA0BUAHvu5LYANgAIAAGAAEAAQ9nzUZmvRmADwOgB3HMnd/enqwD2fia/ZaAN/xjOfE4zxRFozWAbfqZ+D/DbgBt+d/9/meo/xBh0YjcA7v4CoLsBW/u6Wr02vxUiNAK/FkUAQsARKIkPCToNwN0IGwAEAAIAAYAAQAAgABAACABmDMDTYGwAHs73gQQAAgABIACXAAGAAEAAIIBWPAzDBgABgAB4EF+HEAAIAASAAEAAIAAQQFOeBmMDgABAACAAEACH8n0gAYAAEAAIAATQCU+DOYu/FD8ANwQBGFQEYFCJCsCg8mjl/eX502UglY9BEQAIAAQAAgABgABAACAAEAAIAAQAAgABgABAACAAEAAIAEYI4HK9FZeBRJfrrdgAOAKBACA1AO8DSDz/2wDYAC4BAnAMIvD4YwNgA7gECMAxiMDjz183gAhIGX5HIByB1pYCs939f90AImD24XcEwhHo3nJg9Lv/qg0gAmYd/tVHIBEw4/Bveg8gAmYb/s1vgkXATMO/OQARMNPwL8uy7Bpmf2WeUQf/7g1gGzDL8O/eALYBow7+IRvANmDk4T90A9gIjDL0pwQgBkY4VTQ5tgiCXo7RXwuSEKGF1AU9AAAAAElFTkSuQmCC">
+<style>
+  :root{
+    --bg:#F2ECE6; --card:#FFFFFF; --line:#DED4CB; --ink:#2B2220; --muted:#7C716B;
+    --red:#9E2B25; --red-dark:#7E211C; --green:#2E7D4F; --amber:#C67B08; --rust:#B4472E;
+    --lcd-bg:#14231A; --lcd-digit:#8AF5A3; --lcd-dim:#3D5C49;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+  .display{font-family:"Arial Narrow","Helvetica Neue",system-ui,sans-serif;letter-spacing:.03em;font-stretch:condensed;text-transform:uppercase;font-weight:700}
+  .mono{font-family:ui-monospace,"Courier New",monospace}
+  button{font-family:inherit;-webkit-user-select:none;user-select:none}
+  button:active{transform:translateY(1px)}
+  input{font-family:inherit}
+
+  .wrap{max-width:480px;margin:0 auto;padding:0 12px 100px}
+  header.app{display:flex;align-items:baseline;justify-content:space-between;padding:16px 4px 12px}
+  header.app .title{font-size:24px}
+  header.app .title span{color:var(--red)}
+  header.app .date{font-size:12px;color:var(--muted)}
+
+  /* Timbang layout */
+  .tg{display:flex;flex-direction:column;gap:14px}
+  .mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  @media(min-width:700px){
+    .wrap{max-width:720px}
+    .mat-grid{grid-template-columns:repeat(4,1fr)}
+  }
+  @media(min-width:1000px){
+    .wrap{max-width:1040px}
+    .tg{display:grid;grid-template-columns:400px 1fr;grid-template-rows:auto auto 1fr;
+        grid-template-areas:"lcd chips" "pad chips" "pad ticket";gap:16px 24px;align-items:start}
+    .a-lcd{grid-area:lcd}.a-chips{grid-area:chips}.a-pad{grid-area:pad}.a-ticket{grid-area:ticket}
+    .mat-grid{grid-template-columns:repeat(4,1fr)}
+  }
+
+  .lcd{background:var(--lcd-bg);border-radius:14px;padding:14px 16px;border:3px solid #0C1811;box-shadow:inset 0 2px 12px rgba(0,0,0,.6)}
+  .lcd .row1{display:flex;justify-content:space-between;font-size:12px;color:var(--lcd-dim);text-transform:uppercase}
+  .lcd .kilos{font-size:46px;color:var(--lcd-digit);text-align:right;line-height:1.15;text-shadow:0 0 8px rgba(138,245,163,.4)}
+  .lcd .kilos small{font-size:20px;color:var(--lcd-dim)}
+  .lcd .total{font-size:18px;text-align:right;color:var(--lcd-dim)}
+  .lcd .total.on{color:var(--lcd-digit)}
+
+  .chip{padding:0;border-radius:12px;cursor:pointer;border:2px solid var(--line);background:var(--card);text-align:left;min-width:0;overflow:hidden;position:relative}
+  .chip.on{border-color:var(--red);background:#FBEFEA}
+  .chip .ph{width:100%;aspect-ratio:1.6;object-fit:cover;display:block;background:#EFE6DD}
+  .chip .body{padding:6px 8px 8px}
+  .chip .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chip .pr{font-size:12px;color:var(--red-dark)}
+  .chip .stk{position:absolute;top:6px;right:6px;font-size:10px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--muted);font-weight:700}
+  .chip .stk.low{background:#FBEDE9;color:var(--rust)}
+  .chip .stk.out{background:var(--rust);color:#fff}
+
+  .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .pad button{padding:13px 0;font-size:22px;border-radius:10px;cursor:pointer;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+  .add-btn{width:100%;margin-top:10px;padding:14px 0;font-size:18px;border-radius:12px;border:none;background:var(--ink);color:#fff;cursor:pointer}
+  .add-btn:disabled{background:var(--line);color:var(--muted);cursor:default;transform:none}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ticket-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px dashed var(--line)}
+  .ticket-row:last-of-type{border-bottom:none}
+  .ticket-row .info{flex:1;min-width:0}
+  .ticket-row .nm{font-size:15px}
+  .ticket-row .sub{font-size:12px;color:var(--muted)}
+  .xbtn{background:none;border:none;cursor:pointer;color:var(--rust);padding:4px;font-size:16px;line-height:1}
+  .pay-btn{width:100%;padding:15px 0;font-size:19px;border:none;cursor:pointer;color:#fff;background:var(--green)}
+  .empty-box{border:2px dashed var(--line);border-radius:12px;padding:20px 12px;text-align:center;color:var(--muted);font-size:13px}
+
+  /* Karne (products) */
+  .inv-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-top:1px solid var(--line);cursor:pointer}
+  .inv-row:first-child{border-top:none}
+  .inv-row img,.inv-row .ph-empty2{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#EFE6DD;flex:none}
+  .inv-row .ph-empty2{display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted)}
+  .inv-row .info{flex:1;min-width:0}
+  .inv-row .nm{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .inv-row .sub{font-size:12px;color:var(--muted)}
+  .inv-row .pr{font-size:14px;text-align:right}
+  .inv-row .st{font-size:12px;color:var(--muted);text-align:right}
+  .inv-row .st.low{color:var(--rust);font-weight:700}
+  .big-btn{width:100%;margin-top:0;padding:13px 0;font-size:17px;border-radius:12px;border:none;background:var(--red);color:#fff;cursor:pointer}
+
+  /* modal */
+  #modal-bg{position:fixed;inset:0;background:rgba(30,24,20,.55);z-index:60;display:none;align-items:flex-end;justify-content:center}
+  @media(min-width:700px){ #modal-bg{align-items:center} }
+  #modal{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:16px}
+  @media(min-width:700px){ #modal{border-radius:16px} }
+  .m-title{font-size:19px;margin-bottom:12px}
+  .f-label{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:700;margin:10px 0 4px}
+  .f-input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:15px;outline:none;color:var(--ink)}
+  .f-row{display:flex;gap:8px}
+  .f-row>div{flex:1}
+  .photo-box{width:110px;height:110px;border-radius:12px;border:2px dashed var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--muted);cursor:pointer;overflow:hidden;flex:none}
+  .photo-box img{width:100%;height:100%;object-fit:cover}
+  .unit-row{display:flex;gap:8px}
+  .unit-btn{flex:1;padding:9px 0;border-radius:8px;border:2px solid var(--line);background:var(--card);color:var(--muted);font-size:14px;cursor:pointer;font-weight:700}
+  .unit-btn.on{border-color:var(--red);background:#FBEFEA;color:var(--ink)}
+  .m-actions{display:flex;gap:8px;margin-top:16px}
+  .m-actions button{flex:1;padding:12px 0;border-radius:10px;font-size:16px;cursor:pointer}
+  .m-save{border:none;background:var(--red);color:#fff}
+  .m-cancel{border:1px solid var(--line);background:var(--card);color:var(--muted)}
+  .m-danger{border:1px solid var(--rust);background:var(--card);color:var(--rust)}
+  .sukli{background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:10px;display:flex;justify-content:space-between;font-size:17px}
+
+  /* Rekord / Report */
+  .day-title{font-size:15px;padding:0 4px 6px}
+  .sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .rep-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  @media(min-width:700px){ .rep-grid{grid-template-columns:repeat(6,1fr)} .sum-grid{grid-template-columns:repeat(4,1fr)} }
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .stat .lb{font-size:11px;color:var(--muted);text-transform:uppercase}
+  .stat .vl{font-size:15px}
+  .tx-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+  .tx-row:first-child{border-top:none}
+  .tx-row .info{flex:1;min-width:0}
+  .tx-row .top{display:flex;justify-content:space-between;align-items:baseline}
+  .tx-row .sub{font-size:12px;color:var(--muted);margin-top:2px}
+  .print-mini{background:none;border:1px solid var(--line);border-radius:8px;cursor:pointer;color:var(--muted);padding:6px 9px;font-size:14px}
+  .period-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .period-btn{flex:1;min-width:70px;padding:9px 0;font-size:15px;border-radius:10px;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--muted)}
+  .period-btn.on{border-color:var(--ink);background:var(--ink);color:#fff}
+  .rep-head,.rep-row{display:grid;grid-template-columns:1.6fr .9fr 1fr 1fr;gap:4px;padding:9px 12px}
+  .rep-head{background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .rep-head div,.rep-row div{text-align:right;min-width:0}
+  .rep-head div:first-child,.rep-row div:first-child{text-align:left}
+  .rep-row{border-top:1px solid var(--line);font-size:13px}
+  .rep-row:first-of-type{border-top:none}
+  .big-print{width:100%;margin-top:14px;padding:14px 0;font-size:17px;border-radius:12px;border:none;cursor:pointer;background:var(--ink);color:#fff}
+  .big-print:disabled{background:var(--line);color:var(--muted);cursor:default;transform:none}
+
+  /* Setting */
+  .settings-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px}
+  .settings-card .hd{font-size:14px;color:var(--muted);margin-bottom:8px}
+  .settings-card input[type=text]{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:14px;margin-bottom:8px;outline:none;color:var(--ink)}
+  .chk{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:13px;cursor:pointer}
+  .util-row{display:flex;gap:8px;margin-top:8px}
+  .util-row button{flex:1;padding:10px 0;font-size:13px;border-radius:10px;background:var(--card);cursor:pointer;border:1px solid var(--line);color:var(--muted)}
+  .util-row .danger{border-color:var(--rust);color:var(--rust)}
+  .confirm-box{margin-top:10px;padding:12px;border-radius:10px;background:#FBEDE9;border:1px solid var(--rust);font-size:13px}
+  .confirm-box .btns{display:flex;gap:8px;margin-top:8px}
+  .confirm-box button{flex:1;padding:8px;border-radius:8px;cursor:pointer}
+  .confirm-yes{border:none;background:var(--rust);color:#fff;font-weight:700}
+  .confirm-no{border:1px solid var(--line);background:var(--card)}
+
+  /* font resize */
+  .fs-btn{width:40px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:15px;color:var(--ink);font-weight:700}
+  #fs-val{min-width:48px;text-align:center;font-size:14px}
+
+  /* nav + toast */
+  nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:40;padding-bottom:env(safe-area-inset-bottom)}
+  nav .inner{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+  nav button{padding:9px 0 11px;background:none;border:none;cursor:pointer;color:var(--muted)}
+  nav button.on{color:var(--red)}
+  nav .ic{font-size:19px;line-height:1}
+  nav .lb{font-size:11px;margin-top:2px}
+  #toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:15px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:80;display:none}
+  #toast.bad{background:var(--rust)}
+
+  /* printing */
+  #print-area{display:none}
+  @media print{
+    body{background:#fff!important}
+    #app,#modal-bg{display:none!important}
+    #print-area{display:block!important;color:#000;background:#fff}
+    .receipt{width:270px;font-family:ui-monospace,"Courier New",monospace;font-size:12px}
+    .receipt .c{text-align:center}
+    .receipt .b{font-weight:700}
+    .receipt .ln{display:flex;justify-content:space-between}
+    .report-doc{font-family:system-ui,sans-serif;font-size:13px;max-width:720px}
+    .report-doc table{width:100%;border-collapse:collapse;margin-top:6px}
+    .report-doc th,.report-doc td{border:1px solid #999;padding:5px 8px;text-align:right}
+    .report-doc th:first-child,.report-doc td:first-child{text-align:left}
+    @page{margin:10mm}
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="wrap">
+    <header class="app">
+      <div class="display title" id="hdr-title">Meat Shop <span>POS</span></div>
+      <div class="mono date" id="hdr-date"></div>
+    </header>
+    <main id="view"></main>
+  </div>
+  <div id="toast"></div>
+  <nav><div class="inner" id="nav"></div></nav>
+</div>
+
+<div id="modal-bg"><div id="modal"></div></div>
+<div id="print-area"></div>
+
+<script>
+"use strict";
+// ================= constants =================
+const KEY_SET = "settings";
+const DEFAULT_SETTINGS = { shopName:"KARNEHAN", shopInfo:"", autoPrint:false, lowStock:3, fontScale:100 };
+const PERIODS = [ {k:"day",label:"Karon"}, {k:"week",label:"7 Adlaw"}, {k:"month",label:"Bulan"}, {k:"all",label:"Tanan"} ];
+const periodLabel = { day:"Report Karong Adlawa", week:"Report — Miaging 7 ka Adlaw", month:"Report Karong Bulana", all:"Report — Tanan" };
+const DEFAULT_PRODUCTS = [
+  { name:"Liempo", unit:"kg", price:380, cost:330, stock:20 },
+  { name:"Kasim", unit:"kg", price:340, cost:295, stock:20 },
+  { name:"Pigue", unit:"kg", price:330, cost:285, stock:20 },
+  { name:"Buto-buto", unit:"kg", price:260, cost:220, stock:15 },
+  { name:"Pata", unit:"kg", price:280, cost:240, stock:10 },
+  { name:"Giniling nga baboy", unit:"kg", price:320, cost:275, stock:10 },
+  { name:"Manok (tibuok)", unit:"kg", price:190, cost:165, stock:25 },
+  { name:"Paa sa manok", unit:"kg", price:210, cost:180, stock:15 },
+  { name:"Pecho", unit:"kg", price:220, cost:190, stock:12 },
+  { name:"Pakpak", unit:"kg", price:220, cost:190, stock:10 },
+  { name:"Baka", unit:"kg", price:450, cost:395, stock:10 },
+  { name:"Chorizo", unit:"pc", price:15, cost:11, stock:60 },
+  { name:"Longganisa", unit:"pc", price:12, cost:9, stock:60 },
+];
+
+// ================= state =================
+let DB = null;
+let MEM_ONLY = false;
+let P = [];        // products
+let SALES = [];
+let SET = { ...DEFAULT_SETTINGS };
+let S = { tab:"timbang", selectedId:null, qtyStr:"", cart:[], period:"day", confirmClear:null };
+
+// ================= IndexedDB =================
+function openDB(){
+  return new Promise((res, rej) => {
+    if (!("indexedDB" in window)) return rej(new Error("no idb"));
+    const r = indexedDB.open("meatshop", 1);
+    r.onupgradeneeded = () => {
+      const d = r.result;
+      if (!d.objectStoreNames.contains("products")) d.createObjectStore("products", { keyPath:"id" });
+      if (!d.objectStoreNames.contains("sales")) d.createObjectStore("sales", { keyPath:"id" });
+      if (!d.objectStoreNames.contains("kv")) d.createObjectStore("kv", { keyPath:"k" });
+    };
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+function store(name, mode){ return DB.transaction(name, mode).objectStore(name); }
+function idbPut(name, val){
+  if (MEM_ONLY) return Promise.resolve();
+  return new Promise((res, rej) => { const q = store(name,"readwrite").put(val); q.onsuccess=()=>res(); q.onerror=()=>rej(q.error); });
+}
+function idbDel(name, key){
+  if (MEM_ONLY) return Promise.resolve();
+  return new Promise((res, rej) => { const q = store(name,"readwrite").delete(key); q.onsuccess=()=>res(); q.onerror=()=>rej(q.error); });
+}
+function idbAll(name){
+  if (MEM_ONLY) return Promise.resolve([]);
+  return new Promise((res, rej) => { const q = store(name,"readonly").getAll(); q.onsuccess=()=>res(q.result||[]); q.onerror=()=>rej(q.error); });
+}
+function idbClear(name){
+  if (MEM_ONLY) return Promise.resolve();
+  return new Promise((res, rej) => { const q = store(name,"readwrite").clear(); q.onsuccess=()=>res(); q.onerror=()=>rej(q.error); });
+}
+function idbGet(name, key){
+  if (MEM_ONLY) return Promise.resolve(null);
+  return new Promise((res) => { try{ const q = store(name,"readonly").get(key); q.onsuccess=()=>res(q.result||null); q.onerror=()=>res(null);}catch(e){res(null);} });
+}
+function saveSettings(){ return idbPut("kv", { k:KEY_SET, v:SET }).catch(()=>{}); }
+
+// ================= helpers =================
+const $ = (sel) => document.querySelector(sel);
+const esc = (s) => String(s??"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const peso = (n) => "\u20B1" + (Number(n)||0).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
+const num  = (n) => (Number(n)||0).toLocaleString("en-PH",{maximumFractionDigits:2});
+const unitLbl = (u) => u === "pc" ? "pc" : "kg";
+const qtyLbl = (q,u) => num(q) + " " + unitLbl(u);
+const dateKey = (ts) => new Date(ts).toLocaleDateString("en-PH",{year:"numeric",month:"short",day:"numeric",weekday:"short"});
+const timeStr = (ts) => new Date(ts).toLocaleTimeString("en-PH",{hour:"numeric",minute:"2-digit"});
+const fullStamp = (ts) => new Date(ts).toLocaleString("en-PH",{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"});
+const startOfDay = (d) => { const x=new Date(d); x.setHours(0,0,0,0); return x; };
+const dstamp = () => new Date().toISOString().slice(0,10);
+
+let toastTimer=null;
+function toast(msg, bad){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.className = bad ? "bad" : "";
+  t.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ t.style.display="none"; }, 2400);
+}
+function prod(id){ return P.find(p=>p.id===id) || null; }
+function inPeriod(ts, p){
+  const now = new Date();
+  const d = new Date(ts);
+  if (p==="day")   return startOfDay(d).getTime() === startOfDay(now).getTime();
+  if (p==="week")  return d >= new Date(startOfDay(now).getTime() - 6*86400000);
+  if (p==="month") return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+  return true;
+}
+function compressImage(file, max = 340){
+  return new Promise((res) => {
+    try {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const sc = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.max(1, Math.round(img.width * sc));
+        c.height = Math.max(1, Math.round(img.height * sc));
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        res(c.toDataURL("image/jpeg", 0.72));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); res(null); };
+      img.src = url;
+    } catch(e) { res(null); }
+  });
+}
+
+// ================= modal =================
+function openModal(html){ $("#modal").innerHTML = html; $("#modal-bg").style.display = "flex"; }
+function closeModal(){ $("#modal-bg").style.display = "none"; $("#modal").innerHTML = ""; }
+$("#modal-bg").addEventListener("click", e => { if (e.target.id === "modal-bg") closeModal(); });
+
+// ================= timbang actions =================
+function press(k){
+  if (k==="back") S.qtyStr = S.qtyStr.slice(0,-1);
+  else if (k===".") { if (!S.qtyStr.includes(".")) S.qtyStr = (S.qtyStr||"0")+"."; }
+  else S.qtyStr = (S.qtyStr==="0" ? k : (S.qtyStr+k).slice(0,8));
+  updateLCD();
+}
+function updateLCD(){
+  const p = prod(S.selectedId);
+  const qv = parseFloat(S.qtyStr)||0;
+  const el = $("#lcd"); if (!el) return;
+  el.querySelector(".nm").textContent = p ? p.name.toUpperCase() : "PILI OG KARNE";
+  el.querySelector(".up").textContent = p ? peso(p.price)+"/"+unitLbl(p.unit) : "--";
+  el.querySelector(".kv").innerHTML = esc(S.qtyStr||"0") + '<small> '+(p?unitLbl(p.unit):"kg")+'</small>';
+  const tot = el.querySelector(".total");
+  tot.textContent = "= " + peso(qv*(p?p.price:0));
+  tot.classList.toggle("on", qv>0);
+  const add = $("#add-btn"); if (add) add.disabled = !(p && qv>0);
+}
+function addToCart(){
+  const p = prod(S.selectedId);
+  const qv = parseFloat(S.qtyStr)||0;
+  if (!p || qv<=0) return;
+  if ((p.stock||0) < qv) toast("Pahibalo: kulang na ang stock sa "+p.name, true);
+  S.cart.push({ uid:Date.now()+Math.random(), pid:p.id, name:p.name, unit:p.unit, qty:qv, price:p.price, cost:p.cost||0 });
+  S.qtyStr=""; S.selectedId=null;
+  render();
+}
+function cartTotal(){ return S.cart.reduce((s,c)=>s+c.price*c.qty,0); }
+
+function showCheckout(){
+  if (!S.cart.length) return;
+  const total = cartTotal();
+  openModal(
+    '<div class="display m-title">Bayad</div>'+
+    '<div class="sukli"><span>TOTAL</span><span class="mono" style="font-weight:700">'+peso(total)+'</span></div>'+
+    '<div class="f-label">Kwarta gihatag</div>'+
+    '<input class="f-input mono" id="co-cash" type="number" inputmode="decimal" placeholder="'+num(total)+'" style="font-size:22px;text-align:right">'+
+    '<div class="sukli"><span>SUKLI</span><span class="mono" id="co-change">\u20B10.00</span></div>'+
+    '<div class="m-actions">'+
+      '<button class="m-cancel" id="co-cancel">Balik</button>'+
+      '<button class="m-save" id="co-ok" style="background:var(--green)">Human na — irekord</button>'+
+    '</div>'
+  );
+  const cash = $("#co-cash");
+  const upd = () => {
+    const c = parseFloat(cash.value)||0;
+    const ch = c - total;
+    const el = $("#co-change");
+    el.textContent = peso(Math.max(0,ch));
+    el.style.color = c && ch < 0 ? "var(--rust)" : "var(--green)";
+  };
+  cash.oninput = upd;
+  cash.focus();
+  $("#co-cancel").onclick = closeModal;
+  $("#co-ok").onclick = async () => {
+    const c = parseFloat(cash.value)||total;
+    const sale = {
+      id:"s_"+Date.now(), ts:new Date().toISOString(),
+      items:S.cart.map(x=>({ pid:x.pid, name:x.name, unit:x.unit, qty:x.qty, price:x.price, cost:x.cost })),
+      total, cash:c, change:Math.max(0, c-total),
+    };
+    SALES.unshift(sale);
+    const changed = [];
+    for (const it of sale.items){
+      const p = prod(it.pid);
+      if (p){ p.stock = Math.max(0, +(((p.stock||0) - it.qty).toFixed(3))); changed.push(p); }
+    }
+    S.cart = [];
+    closeModal();
+    try {
+      await idbPut("sales", sale);
+      for (const p of changed) await idbPut("products", p);
+    } catch(e){ toast("Wala ma-save sa database", true); }
+    render();
+    toast("Sukli: " + peso(sale.change));
+    if (SET.autoPrint) printReceipt(sale);
+  };
+}
+
+// ================= product form =================
+function showProductForm(p){
+  const isNew = !p;
+  p = p || { id:"p_"+Date.now(), name:"", unit:"kg", price:0, cost:0, stock:0, img:null };
+  let img = p.img;
+  let unit = p.unit || "kg";
+  openModal(
+    '<div class="display m-title">'+(isNew?"Bag-ong produkto":"Usba ang produkto")+'</div>'+
+    '<div style="display:flex;gap:12px;align-items:flex-start">'+
+      '<div class="photo-box" id="pf-photo">'+(img?'<img src="'+img+'">':"\uD83D\uDCF7")+'</div>'+
+      '<div style="flex:1">'+
+        '<div class="f-label">Ngalan</div>'+
+        '<input class="f-input" id="pf-name" value="'+esc(p.name)+'" placeholder="hal. Liempo">'+
+        '<div class="f-label">Unit</div>'+
+        '<div class="unit-row">'+
+          '<button class="unit-btn'+(unit==="kg"?" on":"")+'" data-unit="kg">Kada KILO</button>'+
+          '<button class="unit-btn'+(unit==="pc"?" on":"")+'" data-unit="pc">Kada PIRASO</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<input type="file" id="pf-file" accept="image/*" capture="environment" style="display:none">'+
+    '<div class="f-row">'+
+      '<div><div class="f-label">Presyo</div><input class="f-input mono" id="pf-price" type="number" inputmode="decimal" value="'+(p.price||"")+'"></div>'+
+      '<div><div class="f-label">Puhunan</div><input class="f-input mono" id="pf-cost" type="number" inputmode="decimal" value="'+(p.cost||"")+'"></div>'+
+      '<div><div class="f-label">Stock</div><input class="f-input mono" id="pf-stock" type="number" inputmode="decimal" value="'+(p.stock||0)+'"></div>'+
+    '</div>'+
+    '<div class="m-actions">'+
+      (!isNew ? '<button class="m-danger" id="pf-del">Papasa</button>' : '')+
+      '<button class="m-cancel" id="pf-cancel">Kanselar</button>'+
+      '<button class="m-save" id="pf-save">I-save</button>'+
+    '</div>'
+  );
+  document.querySelectorAll("#modal .unit-btn").forEach(b => b.onclick = () => {
+    unit = b.dataset.unit;
+    document.querySelectorAll("#modal .unit-btn").forEach(x => x.classList.toggle("on", x.dataset.unit===unit));
+  });
+  $("#pf-photo").onclick = () => $("#pf-file").click();
+  $("#pf-file").onchange = async (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const d = await compressImage(f);
+    if (d){ img = d; $("#pf-photo").innerHTML = '<img src="'+d+'">'; }
+    else toast("Dili ma-basa ang litrato", true);
+  };
+  $("#pf-cancel").onclick = closeModal;
+  if (!isNew) $("#pf-del").onclick = async () => {
+    if (!window.confirm("Papason ang \"" + p.name + "\"?")) return;
+    P = P.filter(x => x.id !== p.id);
+    S.cart = S.cart.filter(c => c.pid !== p.id);
+    if (S.selectedId === p.id){ S.selectedId = null; S.qtyStr = ""; }
+    await idbDel("products", p.id).catch(()=>{});
+    closeModal(); render();
+    toast("Napapas ang produkto");
+  };
+  $("#pf-save").onclick = async () => {
+    const name = $("#pf-name").value.trim();
+    if (!name){ toast("Ibutang ang ngalan", true); return; }
+    const upd = {
+      id: p.id, name, unit,
+      price: parseFloat($("#pf-price").value)||0,
+      cost: parseFloat($("#pf-cost").value)||0,
+      stock: parseFloat($("#pf-stock").value)||0,
+      img,
+    };
+    const i = P.findIndex(x => x.id === p.id);
+    if (i >= 0) P[i] = upd; else P.push(upd);
+    await idbPut("products", upd).catch(()=>toast("Wala ma-save", true));
+    closeModal(); render();
+    toast("Na-save: "+name);
+  };
+}
+
+// ================= printing =================
+function printReceipt(sale){
+  const sep = "--------------------------------";
+  let h = '<div class="receipt">';
+  h += '<div class="c b">'+esc(SET.shopName||"KARNEHAN")+'</div>';
+  if (SET.shopInfo) h += '<div class="c">'+esc(SET.shopInfo)+'</div>';
+  h += '<div class="c">'+esc(fullStamp(sale.ts))+'</div>';
+  h += '<div>'+sep+'</div>';
+  for (const it of sale.items){
+    h += '<div class="ln"><span>'+esc(it.name)+' '+num(it.qty)+unitLbl(it.unit)+' x '+num(it.price)+'</span><span>'+num(it.price*it.qty)+'</span></div>';
+  }
+  h += '<div>'+sep+'</div>';
+  h += '<div class="ln b"><span>TOTAL</span><span>'+peso(sale.total)+'</span></div>';
+  h += '<div class="ln"><span>KWARTA</span><span>'+peso(sale.cash)+'</span></div>';
+  h += '<div class="ln"><span>SUKLI</span><span>'+peso(sale.change)+'</span></div>';
+  h += '<div>'+sep+'</div><div class="c">Daghang salamat! Balik-balik!</div></div>';
+  $("#print-area").innerHTML = h;
+  setTimeout(()=>window.print(), 100);
+}
+function reportData(){
+  const sales = SALES.filter(s => inPeriod(s.ts, S.period));
+  let halin=0, puhunan=0, kilos=0;
+  const by = {};
+  for (const s of sales) for (const it of s.items){
+    halin += it.price*it.qty; puhunan += (it.cost||0)*it.qty;
+    if (it.unit !== "pc") kilos += it.qty;
+    const r = by[it.name] = by[it.name] || { name:it.name, unit:it.unit, qty:0, halin:0, ginansya:0 };
+    r.qty += it.qty; r.halin += it.price*it.qty; r.ginansya += (it.price-(it.cost||0))*it.qty;
+  }
+  return { sales, halin, puhunan, ginansya:halin-puhunan, kilos, count:sales.length,
+           rows:Object.values(by).sort((a,b)=>b.halin-a.halin) };
+}
+function printReport(){
+  const r = reportData();
+  if (!r.count) return;
+  let h = '<div class="report-doc">';
+  h += '<h2 style="margin:0 0 2px">'+esc(SET.shopName||"KARNEHAN")+'</h2>';
+  if (SET.shopInfo) h += '<div>'+esc(SET.shopInfo)+'</div>';
+  h += '<h3 style="margin:8px 0 2px">'+periodLabel[S.period]+'</h3>';
+  h += '<div>Gi-print: '+esc(fullStamp(new Date()))+'</div>';
+  h += '<table><thead><tr><th>Produkto</th><th>Qty</th><th>Halin</th><th>Ginansya</th></tr></thead><tbody>';
+  for (const row of r.rows){
+    h += '<tr><td>'+esc(row.name)+'</td><td>'+qtyLbl(row.qty,row.unit)+'</td><td>'+num(row.halin)+'</td><td>'+num(row.ginansya)+'</td></tr>';
+  }
+  h += '<tr style="font-weight:700"><td>TOTAL</td><td>'+num(r.kilos)+' kg</td><td>'+num(r.halin)+'</td><td>'+num(r.ginansya)+'</td></tr>';
+  h += '</tbody></table>';
+  h += '<div style="margin-top:10px">';
+  h += '<div>Ihap sa transaksyon: '+r.count+'</div>';
+  h += '<div>Total nga halin: '+peso(r.halin)+'</div>';
+  h += '<div>Puhunan sa nabaligya: '+peso(r.puhunan)+'</div>';
+  h += '<div style="font-weight:700">Ginansya: '+peso(r.ginansya)+'</div>';
+  h += '</div></div>';
+  $("#print-area").innerHTML = h;
+  setTimeout(()=>window.print(), 100);
+}
+
+// ================= backup / export =================
+function downloadFile(name, content, type){
+  try {
+    const blob = new Blob([content], { type });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  } catch(e){ toast("Wala mahimo ang download", true); }
+}
+const csvCell = (v) => { v = String(v ?? ""); return /[",\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; };
+const csvJoin = (rows) => "\uFEFF" + rows.map(r => r.map(csvCell).join(",")).join("\r\n");
+
+function exportSalesCSV(){
+  if (!SALES.length){ toast("Wala pay halin", true); return; }
+  const rows = [["Petsa","Oras","Produkto","Qty","Unit","Presyo","Total","Puhunan","Ginansya","Resibo ID"]];
+  for (const s of SALES) for (const it of s.items){
+    rows.push([ new Date(s.ts).toLocaleDateString("en-PH"), timeStr(s.ts), it.name, it.qty, unitLbl(it.unit), it.price,
+                it.price*it.qty, (it.cost||0)*it.qty, (it.price-(it.cost||0))*it.qty, s.id ]);
+  }
+  downloadFile("karnehan-halin-"+dstamp()+".csv", csvJoin(rows), "text/csv;charset=utf-8");
+  toast("Na-download ang CSV");
+}
+function exportProductsCSV(){
+  if (!P.length){ toast("Wala pay produkto", true); return; }
+  const rows = [["Ngalan","Unit","Presyo","Puhunan","Stock"]];
+  for (const p of P) rows.push([p.name, unitLbl(p.unit), p.price, p.cost||0, p.stock||0]);
+  downloadFile("karnehan-produkto-"+dstamp()+".csv", csvJoin(rows), "text/csv;charset=utf-8");
+  toast("Na-download ang CSV");
+}
+function backupJSON(){
+  const data = { app:"meatshop-pos", ver:1, exported:new Date().toISOString(), products:P, sales:SALES, settings:SET };
+  downloadFile("karnehan-backup-"+dstamp()+".json", JSON.stringify(data), "application/json");
+  toast("Na-download ang backup");
+}
+function handleRestore(e){
+  const file = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async () => {
+    try {
+      const d = JSON.parse(reader.result);
+      const prods = Array.isArray(d.products) ? d.products : [];
+      const sales = Array.isArray(d.sales) ? d.sales : [];
+      if (!window.confirm("Ilisan ang tanang data karon gamit ang backup?\n("+prods.length+" produkto, "+sales.length+" halin)")) return;
+      P = prods; SALES = sales; SET = { ...DEFAULT_SETTINGS, ...(d.settings||{}) };
+      try {
+        await idbClear("products"); await idbClear("sales");
+        for (const p of P) await idbPut("products", p);
+        for (const s of SALES) await idbPut("sales", s);
+        await saveSettings();
+        await idbPut("kv", { k:"seeded", v:true });
+      } catch(err){ toast("Na-restore pero wala ma-save sa database", true); }
+      S.cart = []; S.selectedId = null; S.qtyStr = "";
+      render();
+      toast("Na-restore ang backup");
+    } catch(err){ toast("Dili ma-basa ang backup file", true); }
+  };
+  reader.readAsText(file);
+}
+
+// ================= render =================
+function applyFontScale(){
+  try {
+    const z = String((SET.fontScale||100)/100);
+    $("#app").style.zoom = z;
+    $("#modal-bg").style.zoom = z;
+  } catch(e){}
+}
+function render(){
+  applyFontScale();
+  $("#hdr-title").innerHTML = esc(SET.shopName||"Meat Shop") + ' <span>POS</span>';
+  $("#hdr-date").textContent = new Date().toLocaleDateString("en-PH",{month:"short",day:"numeric",year:"numeric"});
+  renderNav();
+  const v = $("#view");
+  if (S.tab==="timbang") renderTimbang(v);
+  else if (S.tab==="karne") renderKarne(v);
+  else if (S.tab==="rekord") renderRekord(v);
+  else if (S.tab==="report") renderReport(v);
+  else renderSetting(v);
+}
+function renderNav(){
+  const tabs = [
+    {k:"timbang",label:"Timbang",ic:"\u2696\uFE0F"},
+    {k:"karne",label:"Karne",ic:"\uD83E\uDD69"},
+    {k:"rekord",label:"Rekord",ic:"\uD83D\uDCCB"},
+    {k:"report",label:"Report",ic:"\uD83D\uDCCA"},
+    {k:"setting",label:"Setting",ic:"\u2699\uFE0F"},
+  ];
+  $("#nav").innerHTML = tabs.map(t =>
+    '<button class="'+(S.tab===t.k?"on":"")+'" data-tab="'+t.k+'">'+
+    '<div class="ic">'+t.ic+'</div><div class="display lb">'+t.label+'</div></button>').join("");
+  $("#nav").querySelectorAll("button").forEach(b => b.onclick = () => { S.tab=b.dataset.tab; S.confirmClear=null; render(); });
+}
+
+function renderTimbang(v){
+  const p = prod(S.selectedId);
+  const qv = parseFloat(S.qtyStr)||0;
+  const total = cartTotal();
+  const low = SET.lowStock || 3;
+
+  let h = '<div class="tg">';
+  // LCD
+  h += '<div class="a-lcd lcd" id="lcd">';
+  h += '<div class="row1 mono"><span class="nm">'+(p?esc(p.name.toUpperCase()):"PILI OG KARNE")+'</span><span class="up">'+(p?peso(p.price)+"/"+unitLbl(p.unit):"--")+'</span></div>';
+  h += '<div class="mono kilos kv">'+esc(S.qtyStr||"0")+'<small> '+(p?unitLbl(p.unit):"kg")+'</small></div>';
+  h += '<div class="mono total'+(qv>0?" on":"")+'">= '+peso(qv*(p?p.price:0))+'</div>';
+  h += '</div>';
+  // chips
+  h += '<div class="a-chips">';
+  if (!P.length){
+    h += '<div class="empty-box">Wala pay produkto. Adto sa <b>Karne</b> tab aron magdugang.</div>';
+  } else {
+    h += '<div class="mat-grid">';
+    for (const pp of P){
+      const stCls = pp.stock<=0 ? "out" : (pp.stock<=low ? "low" : "");
+      h += '<button class="chip'+(S.selectedId===pp.id?" on":"")+'" data-sel="'+esc(pp.id)+'">'+
+           (pp.img ? '<img class="ph" src="'+pp.img+'" alt="">' : '')+
+           '<span class="stk '+stCls+'">'+num(pp.stock||0)+'</span>'+
+           '<div class="body"><div class="nm">'+esc(pp.name)+'</div>'+
+           '<div class="mono pr">'+peso(pp.price)+'/'+unitLbl(pp.unit)+'</div></div></button>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  // keypad
+  h += '<div class="a-pad"><div class="pad">';
+  for (const k of ["7","8","9","4","5","6","1","2","3",".","0","back"]){
+    h += '<button class="mono" data-key="'+k+'">'+(k==="back"?"\u232B":k)+'</button>';
+  }
+  h += '</div><button class="display add-btn" id="add-btn"'+((p&&qv>0)?"":" disabled")+'>Idugang sa resibo</button></div>';
+  // ticket
+  h += '<div class="a-ticket">';
+  if (S.cart.length){
+    h += '<div class="card">';
+    for (const it of S.cart){
+      h += '<div class="ticket-row"><div class="info">'+
+           '<div class="display nm">'+esc(it.name)+'</div>'+
+           '<div class="mono sub">'+qtyLbl(it.qty,it.unit)+' \u00D7 '+peso(it.price)+'</div></div>'+
+           '<div class="mono">'+peso(it.price*it.qty)+'</div>'+
+           '<button class="xbtn" data-del="'+it.uid+'">\u2715</button></div>';
+    }
+    h += '<button class="display pay-btn" id="btn-pay">Bayad — '+peso(total)+'</button></div>';
+  } else {
+    h += '<div class="empty-box">Walay sulod ang resibo. Pili og karne ug i-type ang kilo.</div>';
+  }
+  h += '</div></div>';
+  v.innerHTML = h;
+
+  v.querySelectorAll("[data-sel]").forEach(b => b.onclick = () => {
+    S.selectedId = b.dataset.sel;
+    v.querySelectorAll("[data-sel]").forEach(x => x.classList.toggle("on", x.dataset.sel===S.selectedId));
+    updateLCD();
+  });
+  v.querySelectorAll("[data-key]").forEach(b => b.onclick = () => press(b.dataset.key));
+  const add = $("#add-btn"); if (add) add.onclick = addToCart;
+  const pay = $("#btn-pay"); if (pay) pay.onclick = showCheckout;
+  v.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { S.cart = S.cart.filter(x => String(x.uid)!==b.dataset.del); render(); });
+}
+
+function renderKarne(v){
+  let h = '<div style="max-width:640px;margin:0 auto">';
+  h += '<button class="display big-btn" id="btn-add-prod">+ Idugang ang produkto</button>';
+  if (!P.length){
+    h += '<div class="empty-box" style="margin-top:12px">Wala pay produkto.</div>';
+  } else {
+    const low = SET.lowStock || 3;
+    const sorted = [...P].sort((a,b)=>a.name.localeCompare(b.name));
+    h += '<div class="card" style="margin-top:12px">';
+    for (const p of sorted){
+      h += '<div class="inv-row" data-edit="'+esc(p.id)+'">'+
+        (p.img ? '<img src="'+p.img+'" alt="">' : '<div class="ph-empty2">\uD83E\uDD69</div>')+
+        '<div class="info"><div class="nm">'+esc(p.name)+'</div>'+
+        '<div class="sub">puhunan '+peso(p.cost||0)+'/'+unitLbl(p.unit)+'</div></div>'+
+        '<div><div class="mono pr">'+peso(p.price)+'/'+unitLbl(p.unit)+'</div>'+
+        '<div class="mono st'+(p.stock<=low?" low":"")+'">'+num(p.stock||0)+' '+unitLbl(p.unit)+'</div></div></div>';
+    }
+    h += '</div>';
+    h += '<div style="font-size:12px;color:var(--muted);margin-top:8px;padding:0 4px">Pindota ang produkto aron usbon. '+P.length+' ka produkto.</div>';
+  }
+  h += '</div>';
+  v.innerHTML = h;
+  $("#btn-add-prod").onclick = () => showProductForm(null);
+  v.querySelectorAll("[data-edit]").forEach(r => r.onclick = () => showProductForm(prod(r.dataset.edit)));
+}
+
+function renderRekord(v){
+  if (!SALES.length){
+    v.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted)">'+
+      '<div style="font-size:34px;opacity:.5">\u2696\uFE0F</div>'+
+      '<div class="display" style="font-size:18px">Wala pay halin</div>'+
+      '<div style="font-size:13px;margin-top:4px">Pagtimbang sa unang tab aron magsugod.</div></div>';
+    return;
+  }
+  const groups = {};
+  for (const s of SALES){ const k = dateKey(s.ts); (groups[k]=groups[k]||[]).push(s); }
+  let h = '<div style="max-width:640px;margin:0 auto">';
+  for (const [day, ss] of Object.entries(groups)){
+    const halin = ss.reduce((t,s)=>t+s.total,0);
+    const kilos = ss.reduce((t,s)=>t+s.items.reduce((a,i)=>a+(i.unit!=="pc"?i.qty:0),0),0);
+    h += '<div style="margin-bottom:18px"><div class="display day-title">'+esc(day)+'</div>';
+    h += '<div class="sum-grid" style="margin-bottom:8px">';
+    h += '<div class="stat"><div class="lb">Halin</div><div class="mono vl" style="color:var(--green)">'+peso(halin)+'</div></div>';
+    h += '<div class="stat"><div class="lb">Kilo / Transaksyon</div><div class="mono vl">'+num(kilos)+' kg / '+ss.length+'</div></div>';
+    h += '</div><div class="card">';
+    for (const s of ss){
+      h += '<div class="tx-row"><div class="info"><div class="top">'+
+           '<span class="display" style="font-size:14px;color:var(--green)">'+timeStr(s.ts)+'</span>'+
+           '<span class="mono">'+peso(s.total)+'</span></div>'+
+           '<div class="sub">'+s.items.map(it=>esc(it.name)+" "+qtyLbl(it.qty,it.unit)).join(" \u00B7 ")+'</div></div>'+
+           '<button class="print-mini" data-print="'+esc(s.id)+'" title="I-print ang resibo">\uD83D\uDDA8</button></div>';
+    }
+    h += '</div></div>';
+  }
+  h += '</div>';
+  v.innerHTML = h;
+  v.querySelectorAll("[data-print]").forEach(b => b.onclick = () => {
+    const s = SALES.find(x=>x.id===b.dataset.print);
+    if (s) printReceipt(s);
+  });
+}
+
+function renderReport(v){
+  const r = reportData();
+  let h = '<div style="max-width:720px;margin:0 auto">';
+  h += '<div class="period-row">';
+  for (const p of PERIODS){
+    h += '<button class="display period-btn'+(S.period===p.k?" on":"")+'" data-period="'+p.k+'">'+p.label+'</button>';
+  }
+  h += '</div>';
+  h += '<div class="rep-grid" style="margin-bottom:14px">';
+  const stats = [
+    ["Halin", peso(r.halin), "var(--green)"],
+    ["Puhunan", peso(r.puhunan), "var(--amber)"],
+    ["Ginansya", peso(r.ginansya), r.ginansya>=0?"var(--green)":"var(--rust)"],
+    ["Kilo nabaligya", num(r.kilos)+" kg", "var(--ink)"],
+    ["Transaksyon", String(r.count), "var(--ink)"],
+  ];
+  for (const [lb,vl,col] of stats){
+    h += '<div class="stat"><div class="lb">'+lb+'</div><div class="mono vl" style="color:'+col+'">'+vl+'</div></div>';
+  }
+  h += '</div>';
+  if (r.rows.length){
+    h += '<div class="card"><div class="rep-head display"><div>Produkto</div><div>Qty</div><div>Halin</div><div>Ginansya</div></div>';
+    for (const row of r.rows){
+      h += '<div class="rep-row"><div style="font-weight:600">'+esc(row.name)+'</div>'+
+           '<div class="mono">'+qtyLbl(row.qty,row.unit)+'</div>'+
+           '<div class="mono" style="color:var(--green)">'+num(row.halin)+'</div>'+
+           '<div class="mono">'+num(row.ginansya)+'</div></div>';
+    }
+    h += '</div>';
+  } else {
+    h += '<div class="empty-box">Walay halin niini nga panahon.</div>';
+  }
+  h += '<button class="display big-print" id="print-report"'+(r.count?"":" disabled")+'>\uD83D\uDDA8 I-print ang report</button>';
+  h += '</div>';
+  v.innerHTML = h;
+  v.querySelectorAll("[data-period]").forEach(b => b.onclick = () => { S.period=b.dataset.period; render(); });
+  $("#print-report").onclick = printReport;
+}
+
+function renderSetting(v){
+  let h = '<div style="max-width:560px;margin:0 auto">';
+  h += '<div class="settings-card"><div class="display hd">Detalye sa karnehan (mogawas sa resibo)</div>';
+  h += '<input type="text" id="set-name" placeholder="Ngalan sa karnehan" value="'+esc(SET.shopName)+'">';
+  h += '<input type="text" id="set-info" placeholder="Address / contact no. (opsyonal)" value="'+esc(SET.shopInfo)+'">';
+  h += '<label class="chk"><input type="checkbox" id="set-autoprint"'+(SET.autoPrint?" checked":"")+'> I-print dayon ang resibo human sa matag halin</label>';
+  h += '<div style="display:flex;align-items:center;gap:10px;margin-top:12px"><span style="font-size:13px;color:var(--muted)">Gidak-on sa letra</span>'+
+       '<button class="fs-btn" id="fs-minus">A\u2212</button><span class="mono" id="fs-val">'+(SET.fontScale||100)+'%</span>'+
+       '<button class="fs-btn" id="fs-plus">A+</button></div></div>';
+
+  h += '<div class="settings-card"><div class="display hd">Backup ug Export</div>';
+  h += '<div class="util-row" style="margin-top:0"><button id="csv-sales">\u2B07 CSV \u2014 halin</button>'+
+       '<button id="csv-prods">\u2B07 CSV \u2014 produkto</button></div>';
+  h += '<div class="util-row"><button id="bk-dl">\u2B07 Backup (JSON)</button>'+
+       '<button id="bk-restore">\u2B06 I-restore ang backup</button></div>';
+  h += '<input type="file" id="bk-file" accept="application/json,.json" style="display:none">';
+  h += '<div style="font-size:12px;color:var(--muted);margin-top:8px">Ang backup naglakip sa tanang produkto (apil litrato), halin, ug settings. Regular kining i-download ug i-save sa Google Drive o email.</div></div>';
+
+  h += '<div class="settings-card"><div class="display hd">Danger zone</div>';
+  h += '<div class="util-row" style="margin-top:0"><button class="danger" id="clr-sales">Papasa ang mga halin</button>'+
+       '<button class="danger" id="clr-all">Papasa ang TANAN</button></div>';
+  if (S.confirmClear){
+    const all = S.confirmClear==="all";
+    h += '<div class="confirm-box">'+(all ? "Papason ang TANAN: produkto, halin, ug settings." : "Papason ang tanang rekord sa halin.")+' Dili na kini mabalik.'+
+         '<div class="btns"><button class="confirm-yes" id="clr-yes">Oo, papasa</button>'+
+         '<button class="confirm-no" id="clr-no">Ayaw</button></div></div>';
+  }
+  h += '</div>';
+  if (MEM_ONLY) h += '<div class="confirm-box" style="margin-top:0">Pahibalo: dili magamit ang database niining browser — dili ma-save ang data kung sirad-an ang app.</div>';
+  h += '</div>';
+  v.innerHTML = h;
+
+  $("#set-name").oninput = e => { SET.shopName = e.target.value; saveSettings(); };
+  $("#set-name").onblur = () => render();
+  $("#set-info").oninput = e => { SET.shopInfo = e.target.value; saveSettings(); };
+  $("#set-autoprint").onchange = e => { SET.autoPrint = e.target.checked; saveSettings(); };
+  const setFS = (dlt) => {
+    let f = (SET.fontScale||100) + dlt;
+    f = Math.max(70, Math.min(160, f));
+    SET.fontScale = f;
+    saveSettings(); applyFontScale();
+    $("#fs-val").textContent = f + "%";
+  };
+  $("#fs-minus").onclick = () => setFS(-15);
+  $("#fs-plus").onclick = () => setFS(15);
+  $("#csv-sales").onclick = exportSalesCSV;
+  $("#csv-prods").onclick = exportProductsCSV;
+  $("#bk-dl").onclick = backupJSON;
+  $("#bk-restore").onclick = () => $("#bk-file").click();
+  $("#bk-file").onchange = handleRestore;
+  $("#clr-sales").onclick = () => { S.confirmClear = "sales"; render(); };
+  $("#clr-all").onclick = () => { S.confirmClear = "all"; render(); };
+  const cy = $("#clr-yes");
+  if (cy) cy.onclick = async () => {
+    if (S.confirmClear === "all"){
+      P = []; SALES = []; SET = { ...DEFAULT_SETTINGS }; S.cart = []; S.selectedId = null; S.qtyStr = "";
+      try { await idbClear("products"); await idbClear("sales"); await saveSettings(); await idbPut("kv",{k:"seeded",v:true}); } catch(e){}
+      toast("Napapas ang tanan");
+    } else {
+      SALES = [];
+      try { await idbClear("sales"); } catch(e){}
+      toast("Napapas ang mga halin");
+    }
+    S.confirmClear = null;
+    render();
+  };
+  const cn = $("#clr-no"); if (cn) cn.onclick = () => { S.confirmClear = null; render(); };
+}
+
+// ================= PWA =================
+(function(){
+  try {
+  const manifest = {
+    name: "Meat Shop POS",
+    short_name: "Meat Shop",
+    description: "POS para sa karnehan sa merkado — timbang matag kilo, sukli, imbentaryo, ug report.",
+    start_url: location.href.split("#")[0].split("?")[0],
+    scope: location.href.replace(/[^/]*$/, ""),
+    display: "standalone",
+    orientation: "portrait",
+    background_color: "#F2ECE6",
+    theme_color: "#9E2B25",
+    icons: [
+      { src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADRUlEQVR42u3dPVLjQBSFUXUXWyEiZkF4YcyCiB15MZDDDCNZsvrnnpNT41K9T69teaAsDby/PH8u8M3leitn/5vFwJMcRDH0JMdQDD3JMVTDz2iOnLVi8EneBtXwk7wNisEneRtUw0/yNqiGn+QIquEnOYJq+EmOoBp+kiOohp/kCKpLRLLq7k/yFqiGn+QIHIFwBHL3J3ULVMNPcgSOQDgCQXwAjj8kHoNsAGwAiA7A8YfUY5ANgA0AAoBAxfkfGwAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAXCst48PF+E/nlwCQy0ADLUAMNQCwFALwECTYrq/EGOof/rz+uoijLwBDDXTBWCo6YEHYQgABAACAAGcwkdz2AAgAGjHd4FC9fAcpodjsAAMfvPX0jKEpt8F8jSY1hvhKeECCm2c7XR2BHX24e/lrEmf6uzDLwLvUaYOYMtgi4CuAtg7kPf8vAhsgSnfA0BUAHvu5LYANgAIAAGAAEAAQ9nzUZmvRmADwOgB3HMnd/enqwD2fia/ZaAN/xjOfE4zxRFozWAbfqZ+D/DbgBt+d/9/meo/xBh0YjcA7v4CoLsBW/u6Wr02vxUiNAK/FkUAQsARKIkPCToNwN0IGwAEAAIAAYAAQAAgABAACABmDMDTYGwAHs73gQQAAgABIACXAAGAAEAAIIBWPAzDBgABgAB4EF+HEAAIAASAAEAAIAAQQFOeBmMDgABAACAAEACH8n0gAYAAEAAIAATQCU+DOYu/FD8ANwQBGFQEYFCJCsCg8mjl/eX502UglY9BEQAIAAQAAgABgABAACAAEAAIAAQAAgABgABAACAAEAAIAEYI4HK9FZeBRJfrrdgAOAKBACA1AO8DSDz/2wDYAC4BAnAMIvD4YwNgA7gECMAxiMDjz183gAhIGX5HIByB1pYCs939f90AImD24XcEwhHo3nJg9Lv/qg0gAmYd/tVHIBEw4/Bveg8gAmYb/s1vgkXATMO/OQARMNPwL8uy7Bpmf2WeUQf/7g1gGzDL8O/eALYBow7+IRvANmDk4T90A9gIjDL0pwQgBkY4VTQ5tgiCXo7RXwuSEKGF1AU9AAAAAElFTkSuQmCC", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "data:image/png;base64,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", sizes: "512x512", type: "image/png", purpose: "any" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+  const link = document.createElement("link");
+  link.rel = "manifest";
+  link.href = URL.createObjectURL(blob);
+  document.head.appendChild(link);
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch(()=>{});
+    });
+  }
+  } catch(e) { /* opsyonal ra ang PWA extras */ }
+})();
+
+// ================= init =================
+(async function init(){
+  try {
+    DB = await openDB();
+    P = await idbAll("products");
+    SALES = (await idbAll("sales")).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
+    const kv = await idbGet("kv", KEY_SET);
+    if (kv && kv.v) SET = { ...DEFAULT_SETTINGS, ...kv.v };
+    // seed default nga mga putol sa karne sa unang gamit
+    const seeded = await idbGet("kv", "seeded");
+    if (!P.length && !seeded){
+      P = DEFAULT_PRODUCTS.map((p,i) => ({ id:"p_seed_"+i, img:null, ...p }));
+      for (const p of P) await idbPut("products", p).catch(()=>{});
+      await idbPut("kv", { k:"seeded", v:true }).catch(()=>{});
+    }
+  } catch(e) {
+    MEM_ONLY = true;
+    P = DEFAULT_PRODUCTS.map((p,i) => ({ id:"p_seed_"+i, img:null, ...p }));
+  }
+  render();
+  if (MEM_ONLY) toast("Pahibalo: dili ma-save ang data niining browser", true);
+})();
+</script>
+</body>
+</html>
